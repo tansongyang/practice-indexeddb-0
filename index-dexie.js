@@ -1,10 +1,4 @@
 (async function () {
-  const DB_NAME = 'db';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'pokemon';
-  const STORE_KEY_PATH = 'name';
-  const GET_URI = 'https://pokeapi.co/api/v2/pokemon/?limit=151';
-
   const db = new Dexie(DB_NAME);
   db.version(DB_VERSION).stores({
     [STORE_NAME]: `${STORE_KEY_PATH}, url`,
@@ -30,10 +24,5 @@
   }
 
   const records = await db[STORE_NAME].toArray();
-  const list = document.getElementById('list');
-  records.forEach((r) => {
-    const li = document.createElement('li');
-    li.textContent = r.name;
-    list.appendChild(li);
-  });
+  renderList(records);
 })();

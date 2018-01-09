@@ -1,11 +1,5 @@
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
 (async function () {
-  const DB_NAME = 'db';
-  const DB_VERSION = 1;
-  const STORE_NAME = 'pokemon';
-  const STORE_KEY_PATH = 'name';
-  const GET_URI = 'https://pokeapi.co/api/v2/pokemon/?limit=151';
-
   let db = null;
   try {
     db = await openDB(DB_NAME, DB_VERSION, (event) => {
@@ -34,13 +28,8 @@
     }
   }
 
-  const pokemon = await transaction(db, STORE_NAME, null, getAllRecords);
-  const list = document.getElementById('list');
-  pokemon.forEach((p) => {
-    const li = document.createElement('li');
-    li.textContent = p.name;
-    list.appendChild(li);
-  });
+  const records = await transaction(db, STORE_NAME, null, getAllRecords);
+  renderList(records);
 
 
   function countRecords(store) {
